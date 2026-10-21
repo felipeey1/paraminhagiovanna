@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f1ebdf">
+  <meta name="description" content="Uma carta para Giovanna, do seu Oioi.">
+  <title>Para Giovanna — do seu Oioi</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;450;500;600;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --sand: #f1ebdf;
+      --sand-dark: #dfd3bf;
+      --parchment: #fffdf7;
+      --ink: #3f4037;
+      --secondary: #797463;
+      --copper: #a26043;
+      --copper-dark: #854c36;
+      --olive: #777f69;
+      --line: #dfd4c0;
+      --shadow: 0 28px 65px rgba(70,57,43,.17), 0 3px 10px rgba(70,57,43,.08);
+    }
+    * {box-sizing:border-box}
+    html { scroll-behavior:smooth }
+    body {
+      margin:0;
+      color:var(--ink);
+      background: var(--sand);
+      font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      -webkit-font-smoothing:antialiased;
+      min-height:100vh;
+      min-height:100svh;
+    }
+    body::before{
+      content:"";
+      position:fixed; inset:0;pointer-events:none;z-index:3;
+      background-image:url('data:image/svg+xml,%3Csvg viewBox="0 0 180 180" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="n"%3E%3CfeTurbulence type="fractalNoise" baseFrequency=".87" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" opacity=".13" filter="url(%23n)"/%3E%3C/svg%3E');
+      background-size:180px;
+      opacity:.18;
+      mix-blend-mode:multiply;
+    }
+    button {font:inherit}
+    .app {width:min(100% - 32px, 920px);margin:0 auto;position:relative;z-index:1}
+    .intro {
+      min-height:100svh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      padding:58px 0 40px;
+      text-align:center;
+      position:relative;
+    }
+    .intro::before {
+      content:"";
+      position:absolute;
+      left:50%;top:16%;transform:translateX(-50%);
+      width:min(80vw,600px);height:min(75vw,600px);
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(237,218,186,.62), transparent 65%);
+      pointer-events:none;
+    }
+    .topline {
+      color:#8b7c69;
+      font-size:11px;letter-spacing:.23em;
+      font-weight:700;text-transform:uppercase;
+      position:relative;
+    }
+    h1 {
+      margin:16px 0 28px;
+      font-family:'DM Serif Display',Georgia,serif;
+      font-size:clamp(59px, 12vw, 105px);
+      line-height:1;letter-spacing:-.052em;
+      font-weight:400;
+      color:#403d35;
+      position:relative;
+    }
+    h1 i{font-weight:400;color:#a56c4f}
+    .intro-lower{color:var(--secondary);font-size:13px;letter-spacing:.025em;position:relative}
+    .open-button {
+      appearance:none;
+      background:none;border:0;
+      margin:6px 0 24px;
+      padding:30px 18px 26px;
+      cursor:pointer;
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
+      position:relative;
+      transition:transform .3s ease;
+    }
+    .open-button:hover{transform:translateY(-4px)}
+    .open-button:active{transform:translateY(-1px) scale(.99)}
+    .open-button:focus-visible,.action:focus-visible{outline:3px solid var(--copper);outline-offset:7px;border-radius:8px}
+    .stationery {
+      position:relative;
+      display:block;
+      width:min(76vw,360px);
+      aspect-ratio:1.43;
+      filter:drop-shadow(0 21px 19px rgba(73,54,33,.18));
+    }
+    .envelope-back{
+      position:absolute;inset:0;
+      background:#d0b89d;
+      border:1px solid rgba(95,74,54,.13);
+      border-radius:5px;
+    }
+    .paper-peek {
+      position:absolute;
+      width:79%;height:84%;left:10.5%;top:8%;
+      background:#fcf9f0;
+      border:1px solid #e5d8c3;
+      transform:translateY(0);
+      display:flex;align-items:flex-start;justify-content:center;
+      padding-top:22px;
+      font:italic 19px 'DM Serif Display',Georgia,serif;
+      color:var(--copper-dark);
+      transition:transform .7s ease;
+    }
+    .envelope-left{
+      position:absolute;inset:0;
+      background:#e1ccb2;
+      clip-path:polygon(0 0,55% 59%,0 100%);
+      border-radius:5px;
+      z-index:2;
+    }
+    .envelope-right{
+      position:absolute;inset:0;
+      background:#d9bfa2;
+      clip-path:polygon(100% 0,45% 59%,100% 100%);
+      border-radius:5px;
+      z-index:2;
+    }
+    .envelope-bottom{
+      position:absolute;inset:0;
+      background:linear-gradient(155deg,#e5d1b9,#dcc0a4);
+      clip-path:polygon(0 100%,50% 45%,100% 100%);
+      border-radius:5px;
+      z-index:3;
+    }
+    .envelope-flap{
+      position:absolute;inset:0;
+      background:linear-gradient(160deg,#efe0cb,#ddc4a7);
+      clip-path:polygon(0 0,100% 0,50% 63%);
+      transform-origin:top center;
+      transition:transform .7s cubic-bezier(.2,.8,.2,1);
+      z-index:4;
+      border-radius:5px;
+      backface-visibility:hidden;
+    }
+    .seal{
+      position:absolute;z-index:5;left:50%;top:53%;
+      transform:translate(-50%,-50%) rotate(-10deg);
+      width:51px;height:51px;
+      border-radius:50%;
+      background:radial-gradient(circle at 40% 28%,#bb8064,#a15d43 76%);
+      color:#f7e4cc;
+      display:grid;place-items:center;
+      box-shadow:0 4px 8px rgba(64,40,26,.18),inset 0 0 0 3px rgba(242,210,177,.26);
+      font:italic 26px 'DM Serif Display',Georgia,serif;
+      transition:opacity .25s ease;
+    }
+    .open-button.opening .envelope-flap{transform:rotateX(178deg);z-index:0}
+    .open-button.opening .paper-peek{transform:translateY(-39px)}
+    .open-button.opening .seal{opacity:0}
+    .open-button.opening{pointer-events:none}
+    .button-caption{display:block;margin-top:26px;font-size:13px;font-weight:600;color:var(--copper-dark);letter-spacing:.04em}
+    .bottom-line {
+      display:flex;align-items:center;gap:10px;
+      color:#8d8473;font-size:12px;
+      margin-top:15px;
+    }
+    .bottom-line::before,.bottom-line::after{content:"";height:1px;width:36px;background:#c4b6a0}
+
+    .letter-view {display:none;padding:38px 0 70px;animation:rise .65s ease both}
+    .letter-view[aria-hidden="false"]{display:block}
+    .letter-overline{width:min(100%,700px);margin:0 auto 16px;display:flex;align-items:center;justify-content:space-between;color:#887965;font-size:11px;letter-spacing:.17em;text-transform:uppercase;font-weight:700}
+    .letter-sheet {
+      width:min(100%,700px);
+      margin:auto;
+      padding:clamp(31px,8vw,68px);
+      position:relative;
+      background:var(--parchment);
+      box-shadow:var(--shadow);
+      border:1px solid #e3d8c5;
+    }
+    .letter-sheet::after{
+      content:"";position:absolute;inset:11px;border:1px solid rgba(201,181,153,.45);pointer-events:none;
+    }
+    .letter-sheet::before{
+      content:"";position:absolute;right:0;top:0;width:78px;height:78px;
+      background:linear-gradient(225deg,var(--sand) 0 48.5%,#e9dfcc 49%,#f8f3e8 55%,transparent 56%);
+      filter:drop-shadow(-3px 4px 4px rgba(99,78,52,.09));
+      pointer-events:none;
+    }
+    .letter-header{position:relative;padding-bottom:24px;margin-bottom:29px;border-bottom:1px solid #d9ccb5}
+    .letter-to{font-size:11px;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:#9a7860}
+    .letter-header h2{
+      font:400 clamp(37px,7vw,55px)/1.1 'DM Serif Display',Georgia,serif;
+      letter-spacing:-.025em;color:#514539;margin:19px 0 0;
+    }
+    .paragraphs p{
+      font-size:clamp(15px,2.5vw,16px);
+      line-height:1.95;
+      color:#514c41;
+      margin:0 0 21px;
+      overflow-wrap:break-word;
+    }
+    .paragraphs p:last-child{margin-bottom:0}
+    .signature{margin-top:36px;padding-top:24px;border-top:1px solid #dbcfba;display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+    .signature span{font-size:13px;color:#857360}
+    .signature strong{font:italic 31px 'DM Serif Display',Georgia,serif;color:var(--copper-dark);font-weight:400}
+    .letter-footer{width:min(100%,700px);margin:26px auto 0;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:center}
+    .action{
+      appearance:none; border:1px solid #b58a72;
+      background:var(--copper-dark);color:#fffdf7;
+      min-height:45px;padding:12px 18px;
+      font-size:13px;font-weight:700;
+      cursor:pointer;transition:background .2s ease;
+      border-radius:3px;
+    }
+    .action:hover{background:#6f3d2b}
+    .action.secondary{background:transparent;color:var(--copper-dark)}
+    .action.secondary:hover{background:rgba(255,255,255,.4)}
+    @keyframes rise{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+    @media(max-width:600px){
+      .app{width:min(100% - 26px,920px)}
+      .intro{padding:35px 0 30px}
+      h1{font-size:clamp(62px,16vw,78px);margin:14px 0 20px}
+      .open-button{margin:6px 0 15px;padding:27px 12px 18px}
+      .stationery{width:min(79vw,350px)}
+      .letter-view{padding:24px 0 45px}
+      .letter-sheet{padding:44px 29px 41px}
+      .letter-sheet::before{width:55px;height:55px}
+      .letter-sheet::after{inset:8px}
+      .letter-header{padding-bottom:23px;margin-bottom:26px}
+      .letter-header h2{font-size:39px}
+      .paragraphs p{font-size:15px;line-height:1.85;margin-bottom:19px}
+      .letter-footer .action{width:100%}
+    }
+    @media(max-width:360px){
+      .letter-sheet{padding:40px 24px 37px}
+      .letter-header h2{font-size:34px}
+      .paragraphs p{font-size:14.5px}
+      .letter-overline{font-size:10px}
+    }
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*:before,*:after{transition-duration:.01ms!important;animation-duration:.01ms!important}}
+  </style>
+</head>
+<body>
+  <main class="app">
+    <section class="intro" id="intro" aria-label="Para Giovanna">
+      <div class="topline">do seu Oioi</div>
+      <h1>Para <i>Giovanna.</i></h1>
+      <button class="open-button" id="openLetter" type="button" aria-label="Abrir a carta para Giovanna">
+        <span class="stationery" aria-hidden="true">
+          <span class="envelope-back"></span>
+          <span class="paper-peek">Giovanna</span>
+          <span class="envelope-left"></span>
+          <span class="envelope-right"></span>
+          <span class="envelope-bottom"></span>
+          <span class="envelope-flap"></span>
+          <span class="seal">G</span>
+        </span>
+        <span class="button-caption">toque para abrir a carta</span>
+      </button>
+    </section>
+    <section class="letter-view" id="letterView" aria-hidden="true" aria-label="Carta para Giovanna">
+      <div class="letter-overline"><span>para Giovanna</span><span>de Oioi</span></div>
+      <article class="letter-sheet">
+        <header class="letter-header">
+          <div class="letter-to">para a minha Giovanna</div>
+          <h2>Oioiiii meu amor!!!</h2>
+        </header>
+        <div class="paragraphs" id="letterText">
+          <p>Provavelmente você deve estar dormindo MUAHAHAHHA, mas quero que veja assim que acordar essa surpresa que já tenho desenvolvido há um tempinhoo já, lá vem eu com as ideias de programador rsrsrs, mas enfimmm amor, estamos completando mais de um ano já! Já ultrapassou um ano!! você tem ideia?? o tempo realmente passa rápido quando estamos com quem amamos de verdade, </p>
+          <p>se você soubesse o quão penso em você diariamente, o quão você é importante pra mim, jamais teria dúvidas meu amor, jamais duvidaria do meu amor por você, jamais duvidaria de tudo que eu sinto verdadeiramente e fielmente por você meu amor, mas isso não vai me impedir de me motivar e te amar cada dia mais. </p>
+          <p>Eu garanto isso pra você, independente do que pensar, do que acontecer, meu amor jamais vai diminuir por você, eu te amo constantemente cada vez mais, cada dia que passa meu amor. Eu te amo tanto que você nem imagina, você não tem ideia do quão eu te admiro cada dia que tem passado, todos os dias você vive na minha cabeça meu amor, você é o meu tudo. </p>
+          <p>Você é o meu motivo de respirar o ar até hoje que me trás vontade diariamente, foi você quem conseguiu preencher cada vazio no meu peito, colorir cada cantinho sem cor na minha vida meu amor! nunca tenha dúvida da mulher incrível que você é, não somente como namorado eu digo isso, mas pela pessoa maravilhosa que você é meu amor! </p>
+          <p>Jamais desista daquilo que você sempre sonhou, daquilo que você sonha diariamente, pois eu garanto, o seu querer é mais forte do que imagina, a sua capacidade é além do que acredita, e o meu acreditar é mais do que qualquer outro alguém que possa acreditar, pois eu sei bemmm de pertinho, a pessoa que você é, e sabe quem você é? a melhor namorada, filha, irmã, companheira, amiga, alguém que tem um privilégio em ter você fazendo parte em sua vida! </p>
+          <p>É uma sorte inacreditável alguém ter o proveito de ter qualquer contato com você, MENOS HOMEM QUE EU NÃO DEIXO NÃO HAHAHAHAHAHAHHAHA, nesse caso só os familiares e eu rsrsrs, mas jamais meu amor, jamais esqueça o amor que eu tenho admiravelmente por você, é um amor que você não enxerga especificamente, é algo que convive dentro de mim, por tudo aquilo que sinto por você, eu espero que um dia veja da forma mais possível, a forma que eu lhe vejo todos os dias.</p>
+        </div>
+        <div class="signature"><span>Com amor:</span><strong>o seu Oioi.</strong></div>
+      </article>
+      <div class="letter-footer">
+        <button class="action secondary" id="closeLetter" type="button">Ver o envelope novamente</button>
+      </div>
+    </section>
+    <audio id="backgroundMusic" loop preload="auto" playsinline aria-hidden="true" src="musica.mp3"></audio>
+  </main>
+  <script>
+    const intro = document.getElementById('intro');
+    const openButton = document.getElementById('openLetter');
+    const view = document.getElementById('letterView');
+    const closeButton = document.getElementById('closeLetter');
+    const backgroundMusic = document.getElementById('backgroundMusic');
+    let opened = false;
+
+    function showLetter() {
+      if (opened) return;
+      opened = true;
+
+      // Play synchronously in the user's actual tap/click event.
+      // In iPhone Safari, deferring play() until after an animation can block the sound.
+      backgroundMusic.volume = 1;
+      const playback = backgroundMusic.play();
+      if (playback && typeof playback.catch === 'function') {
+        playback.catch(() => {
+          // Browsers can still refuse playback or audio may fail to load.
+          // No additional music button is displayed, as requested.
+        });
+      }
+
+      openButton.classList.add('opening');
+      window.setTimeout(() => {
+        intro.style.display = 'none';
+        view.setAttribute('aria-hidden', 'false');
+        window.scrollTo({top: 0, behavior: 'instant'});
+      }, 540);
+    }
+
+    openButton.addEventListener('click', showLetter);
+    closeButton.addEventListener('click', () => {
+      opened = false;
+      backgroundMusic.pause();
+      try { backgroundMusic.currentTime = 0; } catch (error) { /* audio metadata not loaded */ }
+      intro.style.display = 'flex';
+      openButton.classList.remove('opening');
+      view.setAttribute('aria-hidden', 'true');
+      window.scrollTo({top: 0, behavior: 'instant'});
+    });
+  </script>
+</body>
+</html>
